@@ -43,8 +43,8 @@ def configure
     end
 
     recipe_eval do
-      sentinel_name = current['name'] || current['port']
-      sentinel_name = "sentinel_#{sentinel_name}"
+      master_name   = current['name'] || current['port']
+      sentinel_name = "sentinel_#{master_name}"
       piddir = "#{base_piddir}/#{sentinel_name}"
 
       #Create the owner of the redis data directory
@@ -104,7 +104,7 @@ def configure
         action config_action
         variables({
           :piddir                 => piddir,
-          :name                   => sentinel_name,
+          :name                   => master_name,
           :job_control            => node['redisio']['job_control'],
           :sentinel_port          => current['sentinel_port'],
           :masterip               => current['master_ip'],
